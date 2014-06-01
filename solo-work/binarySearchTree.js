@@ -10,32 +10,28 @@ BinarySearchTree.prototype.insert = function(value, root, depth) {
   root = root || this;
   depth = depth || 1;
   if (this.value > value) {
-    depth++;
     if (this.left) {
-      this.left.insert(value, root, depth);
+      this.left.insert(value, root, ++depth);
     }
     else {
-      root.nodes++;
       this.left = new BinarySearchTree(value);
-      if (root.depth < depth) root.depth = depth;
-      root.checkDepth();
+      root.checkDepth(++depth);
     }
   }
   else if (this.value < value) {
-    depth++;
     if (this.right) {
-      this.right.insert(value, root, depth);
+      this.right.insert(value, root, ++depth);
     }
     else {
-      root.nodes++;
       this.right = new BinarySearchTree(value);
-      if (root.depth < depth) root.depth = depth;
-      root.checkDepth();
+      root.checkDepth(++depth);
     }
   }
 };
 
-BinarySearchTree.prototype.checkDepth = function() {
+BinarySearchTree.prototype.checkDepth = function(depth) {
+  this.nodes++;
+  if (this.depth < depth) this.depth = depth;
   var balancedDepth = Math.log(this.nodes) / Math.log(2);
   if (this.depth > balancedDepth * 2) {
     this.rebalance();

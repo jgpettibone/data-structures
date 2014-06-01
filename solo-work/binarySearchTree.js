@@ -7,21 +7,20 @@ var BinarySearchTree = function(value){
 };
 
 BinarySearchTree.prototype.insert = function(value, root, depth) {
+  if (this.value === undefined) this.value = value;
   root = root || this;
   depth = depth || 1;
   if (this.value > value) {
-    if (this.left) {
+    if (this.left)
       this.left.insert(value, root, ++depth);
-    }
     else {
       this.left = new BinarySearchTree(value);
       root.checkDepth(++depth);
     }
   }
   else if (this.value < value) {
-    if (this.right) {
+    if (this.right) 
       this.right.insert(value, root, ++depth);
-    }
     else {
       this.right = new BinarySearchTree(value);
       root.checkDepth(++depth);
@@ -45,8 +44,7 @@ BinarySearchTree.prototype.rebalance = function() {
   });
   values.sort(function(a,b){ return a-b; });
 
-  var midIndex = Math.floor(values.length / 2);
-  var root = new BinarySearchTree(values[midIndex]);
+  var root = new BinarySearchTree();
 
   var populateTree = function(root, values) {
     var midIndex = Math.floor(values.length / 2);
@@ -56,7 +54,6 @@ BinarySearchTree.prototype.rebalance = function() {
     if (values1.length > 0) populateTree(root, values1);
     if (values2.length > 0) populateTree(root, values2);
   };
-
   populateTree(root, values);
 
   this.value = root.value;

@@ -5,13 +5,21 @@ describe("tree", function() {
   var tree;
 
   beforeEach(function() {
+    // tree = makeTree();
     tree = new Tree();
   });
 
-  it("should have methods named 'addChild' and 'contains', and a property named 'value'", function() {
+  // it("should have methods named 'addChild' and 'contains', and a property named 'value'", function() {
+  //   expect(tree.addChild).to.be.a('function');
+  //   expect(tree.contains).to.be.a('function');
+  //   assert.isTrue('value' in tree);
+  // });
+
+  it("should have methods named 'addChild' and 'contains', 'parent', and a property named 'value'", function() {
     expect(tree.addChild).to.be.a('function');
     expect(tree.contains).to.be.a('function');
     assert.isTrue('value' in tree);
+    assert.isTrue('parent' in tree);
   });
 
   it("should add children to the tree", function() {
@@ -43,5 +51,16 @@ describe("tree", function() {
     assert.isTrue(tree.contains(7));
     assert.isTrue(tree.contains(8));
   });
+
+  it("should remove child from parent with removeFromParent", function() {
+    tree.addChild(5);
+    tree.children[0].addChild(4);
+    // console.log(tree);
+    expect(tree.children[0].children[0].value).to.equal(4);
+    assert.isTrue(tree.contains(4));
+    tree.children[0].children[0].removeFromParent();
+    assert.isFalse(tree.contains(4));
+  });
+
 
 });

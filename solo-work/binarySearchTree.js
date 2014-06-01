@@ -31,3 +31,14 @@ BinarySearchTree.prototype.depthFirstLog = function(callback) {
   if (this.right)
     this.right.depthFirstLog(callback);
 };
+
+BinarySearchTree.prototype.breadthFirstLog = function(callback, queue) {
+  var queue = [];
+  queue.push(this);
+  while(queue.length > 0) {
+    var current = queue.shift();
+    callback(current.value);
+    if (current.left) queue.push(current.left);
+    if (current.right) queue.push(current.right);
+  }
+};

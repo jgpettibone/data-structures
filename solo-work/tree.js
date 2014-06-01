@@ -25,3 +25,12 @@ Tree.prototype.removeFromParent = function(){
   this.parent.children = this.parent.children.slice(0,index) + this.parent.children.slice(index+1);
   this.parent = null;
 };
+
+Tree.prototype.traverse = function(callback){
+  callback(this.value);
+  if (this.children){
+    for (var i = 0; i < this.children.length; i++) {
+      this.children[i].traverse(callback);
+    }
+  }
+};

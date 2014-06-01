@@ -10,12 +10,11 @@ BinarySearchTree.prototype.insert = function(value, root, depth) {
   root = root || this;
   depth = depth || 1;
   if (this.value > value) {
+    depth++;
     if (this.left) {
-      depth++;
       this.left.insert(value, root, depth);
     }
     else {
-      depth++;
       root.nodes++;
       this.left = new BinarySearchTree(value);
       if (root.depth < depth) root.depth = depth;
@@ -23,12 +22,11 @@ BinarySearchTree.prototype.insert = function(value, root, depth) {
     }
   }
   else if (this.value < value) {
+    depth++;
     if (this.right) {
-      depth++;
       this.right.insert(value, root, depth);
     }
     else {
-      depth++;
       root.nodes++;
       this.right = new BinarySearchTree(value);
       if (root.depth < depth) root.depth = depth;
@@ -38,8 +36,39 @@ BinarySearchTree.prototype.insert = function(value, root, depth) {
 };
 
 BinarySearchTree.prototype.checkDepth = function() {
-  var balancedDepth = Math.log(this.nodes) / Math.log(2) - 1;
-  if (this.depth > balancedDepth * 2) console.log('help!');
+  var balancedDepth = Math.log(this.nodes) / Math.log(2);
+  if (this.depth > balancedDepth * 2) {
+    this.rebalance();
+  }
+};
+
+BinarySearchTree.prototype.rebalance = function() {
+  var values = [];
+  this.depthFirstLog(function(value){ 
+    values.push(value); 
+  });
+  values.sort(function(a,b){ return a-b; });
+
+  var midIndex = Math.floor(values.length / 2);
+  var root = new BinarySearchTree(values[midIndex]);
+
+  var populateTree = function(root, values) {
+    var midIndex = Math.floor(values.length / 2);
+    root.insert(values[midIndex]);
+    var values1 = values.slice(0,midIndex);
+    var values2 = values.slice(midIndex+1)
+    if (values1.length > 0) populateTree(root, values1);
+    if (values2.length > 0) populateTree(root, values2);
+  };
+
+  populateTree(root, values);
+
+  this.value = root.value;
+  this.left = root.left;
+  this.right = root.right;
+  this.depth = root.depth;
+  this.nodes = root.nodes;
+
 };
 
 BinarySearchTree.prototype.contains = function(target) {

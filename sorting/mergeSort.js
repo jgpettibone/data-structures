@@ -1,3 +1,14 @@
+/*
+ * Mergesort takes a divide and conquer approach to sorting.  the 
+ * array is divided in half until it gets down to arrays of 
+ * one element each.  The sorting happens at the time the divided 
+ * arrays get merged back together.  They are merged so that the 
+ * first element in each array is compared and the smaller is 
+ * merged first.  This gives us sorted order.
+ *
+ *
+*/
+
 var mergeSort = function(array) {
 
   // don't need to sort an array of 0 or 1 elements

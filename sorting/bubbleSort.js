@@ -14,7 +14,12 @@
  * Optimize - don't check the last element since we know it's sorted
 */
 
+// Note - this implementation mutates the input array
+
 var bubbleSort = function(array) {
+
+  // don't need to sort an array of 0 or 1 elements
+  if (array.length < 2) return array;
 
   // swaps two values in the array
   var swap = function(left, right) {
